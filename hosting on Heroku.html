@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>2406</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style type="text/css">
+body {
+	font-family: Arial, Helvetica, sans-serif;	
+	margin-left:80px;
+	margin-right:80px;
+}
+h1, h2, h3 {
+	font-weight: bold;
+	color: blue;
+}
+p {
+		font-size: large;
+}
+
+.red {
+	color: #F00;
+}
+.bold {
+	font-weight: bold;
+}
+.requirement {
+	font-weight: bold;
+	background-color: #6AF37A;
+}
+.requirement_danger {
+	font-weight: bold;
+	background-color: #F47272
+}
+.requirement_warning {
+	font-weight: bold;
+	background-color: #F6CA54
+}
+.code {
+	font-family: "Courier New", Courier, monospace;
+}
+.requirement_warning1 {	font-weight: bold;
+	background-color: #F7BD36
+}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>Hosting A5 Server On Heroku</h1>
+<p>Here is a useful set of instructions that Omar Garcia Flores has sent me that he used to host his assignment 5 server on Heroku -Thanks Omar.</p>
+<p>&nbsp;</p>
+<p>These are the steps I followed to set up the tutorial 9/assignment 5 demo code on a Heroku server.</p>
+<ol start="1" type="1">
+  <li>Set up a GitHub repository <br>
+    <a href="https://help.github.com/articles/create-a-repo/">https://help.github.com/articles/create-a-repo/</a></li>
+  <li>Install Heroku locally <br>
+    <a href="https://devcenter.heroku.com/articles/heroku-cli#download-and-install">https://devcenter.heroku.com/articles/heroku-cli#download-and-install</a></li>
+  <li>Locally, on the repository&rsquo;s directory, generate a Heroku app remote</li>
+</ol>
+<p>$heroku create<br>
+  <a href="https://devcenter.heroku.com/articles/git">https://devcenter.heroku.com/articles/git</a></p>
+<ol start="4" type="1">
+  <li>Push changes to the Heroku remote <br>
+    $git push heroku master</li>
+  <li>Create an account on mLab (MongoDB tool for cloud storage)<br>
+    <a href="https://mlab.com/signup/">https://mlab.com/signup/</a></li>
+  <li>Create a new database on mLab and connect the app to mLab using the given connection string similar to: <br>
+    `mongodb://&lt;dbuser&gt;:&lt;dbpassword&gt;@ds038888.mlab.com:38888/&lt;databaseName&gt; `</li>
+  <li>Replace the line  <br>
+    `mongoose.connect('<a href="mongodb://localhost/myShoppingApp3'">mongodb://localhost/myShoppingApp3'</a>)`<br>
+    with <br>
+    `mongodb://&lt;dbuser&gt;:&lt;dbpassword&gt;@ds038888.mlab.com:38888/&lt;databaseName&gt;`<br>
+    <strong>in both </strong>populate-for-startup.js <strong>and </strong>app.js</li>
+  <li>Run populate-for-startup.js locally, this should populate the databse in the cloud (mLab database).</li>
+  <li>Upload changes to git repository <strong>and </strong>Heroku app<br>
+    $git add .<br>
+    $git commit -m &ldquo;Changes&rdquo;<br>
+    $git push <br>
+    //Updates heroku app<br>
+    $git push Heroku master<br>
+    <br>
+  </li>
+</ol>
+<p>More can be read at: </p>
+<p><a href="https://www.freecodecamp.org/forum/t/guide-for-using-mongodb-and-deploying-to-heroku/19347">https://www.freecodecamp.org/forum/t/guide-for-using-mongodb-and-deploying-to-heroku/19347</a></p>
+<p>Best, </p>
+<p>Omar.</p>
+<p class="red">&nbsp;</p>
+<hr width="100%">
+</div>
+</body>
+</html>

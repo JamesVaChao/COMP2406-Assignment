@@ -172,7 +172,8 @@ router.post('/checkout-process', function (req, res) {
         }
       }
       console.log("Payment link: " + paymentLink);
-      open(paymentLink);
+      res.redirect(paymentLink);
+
       console.log("PAYMENT");
 
       console.log(payment);

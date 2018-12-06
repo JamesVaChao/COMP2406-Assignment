@@ -177,7 +177,7 @@ router.post('/checkout-process', function (req, res) {
       console.log("PAYMENT");
 
       console.log(payment);
-      res.redirect(302, '/')
+      //res.redirect(302, '/')
 
     }
   });

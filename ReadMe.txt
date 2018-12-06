@@ -1,58 +1,35 @@
-To run this app you need a personal Paypal Account
-You can create on at paypal.com
-When you create the account you DON'T need to link a credit card or bank account at creation time.
-I just ignored that step when prompted and it created the account anyway. I received confirmation by email.
+Paulina Chametka, 101067199, paulinachametka@cmail.carleton.ca
+James Va-Chao, 101084995, jamesvachao@cmail.carleton.ca
 
-1) Changing paypal account
-Visit app.js file then change client_id and client_secret with your
-paypal sandbox account.
+Version: v8.12.0
+OS: Windows 10, Mac OS High Sierra, Windows XP
 
-You can create a sandbox account from below link
-https://developer.paypal.com/
-
-3) Setup project
-First get mongod running. That is, start up the mongodb database listening
-on its default port of 27017.
-Next run the populate-for-startup.js
-file inside the seed directory to populate the mongodb database.
-You can run the file with below command (after locating in the terminal)
-node populate-for-startup.js
-
-Install the npm module dependencies in package.json by executing:
+Launch instructions: 
 npm install
-
-4) Run the application
-In the application folder execute:
 npm start
-then you can access from localhost at
+
+If you want to populate the server drop it on mongodb with the following commands:
+mongo ds127644.mlab.com:27644/myapp -u james -p james123
+db.dropDatabase()
+
+For Testing: 
 http://localhost:3000
+OR GO TO
+http://fakestore.herokuapp.com/
+For a live Version
 
-5) Login to the app using the dummy user for project:
-username : admin@admin.com
-password : admin
 
-5) Important
-Before starting application please make sure your mongo database runs.
+Login Information
+Username: paulina
+Password: p
 
-6) Features
-Add, delete, or update product
-Add, delete, or update variant
-Add, delete, or update department
-Add, delete, or update category
-Add, or delete discount code
-Sends email on the signin
-Advance search bar (search for product and categories)
-Buy item
-Shopping cart
-Order history
-Distunguishes user and admin
-Filters
+Username: admin@admin.com
+Password: admin
 
-7) Comments
-I tried to add comments almost each of the functions and middlewares and tried to explain what they are.
-Most important part is here: routes, models, and public>javascripts>custom.js
+Username: james
+Password: j
 
-If you check the code you will see that most of the functions and middlewares pretty same.
 
-You can also notice that sometimes used different way to do same thing because the aim is here to show
-you another approach to do that.
+
+Issues: I'm pretty sure it's working 100% but Me and this Ta tried to fix it on Thursday and he said that he was confused because the code is so weird and it's hard to understand. We couldn't figure it out as to why it was crashing so if you do run into any errors then the rest will still work because I moved all the code to a new program.
+

@@ -112,8 +112,9 @@ router.post('/apply-discount', ensureAuthenticated, function (req, res, next) {
 /////////////////////////////////////////////////////////////////////
 router.post('/checkout-process', function (req, res) {
   let cart = new Cart(req.session.cart);
-  let totalPrice = (req.session.cart.discountPrice > 0) ? req.session.cart.discountPrice : roundTo(cart.totalPrice,2);
-  //https://api.sandbox.paypal.com
+  let totalPrice = (req.session.cart.discountPrice > 0) ? req.session.cart.discountPrice : roundTo(cart.totalPrice, 2);
+
+  //creates paypal configs
   console.log("LINK:" + req.headers.host)
   paypal.configure({
     'mode': 'sandbox', //sandbox or live
@@ -153,10 +154,9 @@ router.post('/checkout-process', function (req, res) {
   };
   //res.redirect(302, '/checkout/checkout-success')
 
-
-
-  var paymentId = 'PAYMENTid';
   var paymentLink = ""
+
+  //Create the paypal payment and redirects to website to approve
 
   paypal.payment.create(create_payment_json, function (error, payment) {
     if (error) {
@@ -188,7 +188,7 @@ router.post('/checkout-process', function (req, res) {
 });
 
 router.get('/checkout-success', ensureAuthenticated, function (req, res) {
-  //TODO: IMPLEMENT PAYMENT THROUGH PAYPAL
+  //If paypal approval sucess then do checkout stuff
 
   var paymentId = req.query.paymentId;
   console.log("PaymentId:");
@@ -200,12 +200,15 @@ router.get('/checkout-success', ensureAuthenticated, function (req, res) {
   console.log("payerId:");
   console.log(payerId);
 
+
+  //execute payment using paypal and url stuff
   paypal.payment.execute(paymentId, payerId, function (error, payment) {
     if (error) {
       var cart = new Cart(req.session.cart);
 
       console.error(JSON.stringify(error));
-      //DELETING
+
+      //DELETING Stuff from cart 
       var cartItems = cart.generateArray()
       console.log(req.session.cart);
 
@@ -213,13 +216,8 @@ router.get('/checkout-success', ensureAuthenticated, function (req, res) {
         var totalQty = element.qty
 
         for (var i = 0; i < totalQty; i++) {
-          //console.log("I variable" + i)
-          //console.log("element qty" + element.qty)
-
-
           cart.decreaseQty(element.item._id);
           //console.log("Deleting roughly: " + element.qty + " " + element.item.title + " with id: " + element.item._id);
-
           //console.log("total items in cart" + cart.totalQty)
         }
       });
@@ -227,7 +225,6 @@ router.get('/checkout-success', ensureAuthenticated, function (req, res) {
       console.log(req.session.cart);
       console.log(cart)
 
-      //Does deleting of cart
       req.session.cart = cart;
       console.log(req.session.cart);
       res.render('checkoutSuccess', {
@@ -246,7 +243,6 @@ router.get('/checkout-success', ensureAuthenticated, function (req, res) {
         console.log(payment.payer.payer_info.shipping_address)
         var cart = new Cart(req.session.cart);
         let totalPrice = (req.session.cart.discountPrice > 0) ? req.session.cart.discountPrice : cart.totalPrice;
-        var cartItems = cart.generateArray()
         //console.log("CART:");
         //console.log(cartItems)
         //console.log("ITEM:");
@@ -255,9 +251,6 @@ router.get('/checkout-success', ensureAuthenticated, function (req, res) {
 
 
         //ORDER HISTORY
-
-        //console.log("REQPAYMENT");
-        //console.log(req.session.payment);
         console.log("Hello")
         //console.log(req);
         console.log(req.session.payment)
@@ -277,11 +270,10 @@ router.get('/checkout-success', ensureAuthenticated, function (req, res) {
         newOrder.save();
 
 
-        //DELETING
+        //DELETING Stuff from cart if paypal gets approved 
         var cart = new Cart(req.session.cart);
-
+        var cartItems = cart.generateArray()
         console.error(JSON.stringify(error));
-        //DELETING
         var cartItems = cart.generateArray()
         console.log(req.session.cart);
 
@@ -300,7 +292,6 @@ router.get('/checkout-success', ensureAuthenticated, function (req, res) {
         console.log(req.session.cart);
         console.log(cart)
 
-        //Does deleting of cart
         req.session.cart = cart;
         console.log(req.session.cart);
         res.render('checkoutSuccess', {
@@ -313,26 +304,6 @@ router.get('/checkout-success', ensureAuthenticated, function (req, res) {
       }
     }
   });
-
-
-
-
-  /*
-  console.log('orderid' + req.session.payment.id);
-  console.log('username' + req.user.username);
-  console.log('paymenttime' + req.session.payment.create_time);
-  console.log(newOrder);
-
-
-  //console.log(req)
-  */
-
-
-
-  ///
-
-
-
 
 
 });
@@ -386,13 +357,13 @@ router.get('/buy-now/:id', ensureAuthenticated, function (req, res, next) {
             Product.findById(variant.productID, function (e, p) {
               let color = (variant.color) ? "- " + variant.color : "";
               variant.title = p.title + " " + color
-              variant.price = roundTo(p.price,2)
+              variant.price = roundTo(p.price, 2)
               cart.add(variant, variant.id);
               req.session.cart = cart;
               res.render('checkout', {
                 title: 'Checkout Page',
                 items: cart.generateArray(),
-                totalPrice: roundTo(cart.totalPrice,2),
+                totalPrice: roundTo(cart.totalPrice, 2),
                 bodyClass: 'registration',
                 containerWrapper: 'container'
               });

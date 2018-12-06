@@ -113,22 +113,26 @@ router.post('/apply-discount', ensureAuthenticated, function (req, res, next) {
 router.post('/checkout-process', function (req, res) {
   let cart = new Cart(req.session.cart);
   let totalPrice = (req.session.cart.discountPrice > 0) ? req.session.cart.discountPrice : roundTo(cart.totalPrice,2);
-  var didPaymentSucceed = Math.random();
   //https://api.sandbox.paypal.com
+  console.log("LINK:" + req.headers.host)
   paypal.configure({
     'mode': 'sandbox', //sandbox or live
     'client_id': 'AU1-HVQ3Mjj_49EUkMmJxv5i07RrKOsqQL_kM6iRrbIaMNXAqY4FUpdvIgzomm9Zga56EacOA3l_58Wr',
     'client_secret': 'ELbFx6fAG_cFEuO4VNHTFYAByqQ2ULgjBYi25BwxAqROe6pfIl0ST0vHIlmiwddCS31H3Nir_EjS-Y4R'
   });
   //req.session.host
+  return_url = `http://${req.headers.host}/checkout/checkout-success`
+  cancel_url = `http://${req.headers.host}/checkout/checkout-cancel`
+  console.log(return_url)
+  console.log(cancel_url)
   var create_payment_json = {
     "intent": "sale",
     "payer": {
       "payment_method": "paypal"
     },
     "redirect_urls": {
-      "return_url": "http://localhost:3000/checkout/checkout-success",
-      "cancel_url": "http://localhost:3000/checkout/checkout-cancel"
+      "return_url": `${return_url}`,
+      "cancel_url": `${cancel_url}`
     },
     "transactions": [{
       "item_list": {

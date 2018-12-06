@@ -18,6 +18,10 @@ const roundTo = require('round-to');
 //
 /////////////////////////////////////////////////////////////////////
 router.get('/', ensureAuthenticated, function (req, res, next) {
+  var host = req.headers.host;
+var origin = req.headers.origin;
+
+console.log("HOST: " + req.headers.host + "/checkout/checkout-success")
   Product.getAllProducts(function (e, products) {
     if (e) {
       console.log("Failed on router.get('/')\nError:".error, e.message.error + "\n")
